@@ -8,7 +8,7 @@
 using namespace std;
 
 AnalizadorEstadistico::AnalizadorEstadistico(string archivo) {
-    this->nombreArchivo = nombreArchivo;
+    this->nombreArchivo = archivo;
 }
 
 void AnalizadorEstadistico::leerArchivo(){
@@ -31,5 +31,6 @@ void AnalizadorEstadistico::calcularMediana(){
 }
 void AnalizadorEstadistico::mostrarHistograma(){
 }
-void AnalizadorEstadistico::guardarResultados(string archivoReporte){
+void AnalizadorEstadistico::guardarResultados(string reporte){
+    this->archivoReporte = reporte;
 }
