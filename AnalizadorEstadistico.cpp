@@ -14,3 +14,6 @@ AnalizadorEstadistico::AnalizadorEstadistico(string archivo) {
 void AnalizadorEstadistico::leerArchivo(){
 
 }
+
+void AnalizadorEstadistico::cargarArchivo(){
+}
