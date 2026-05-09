@@ -15,5 +15,7 @@ void AnalizadorEstadistico::leerArchivo(){
 
 }
 
-void AnalizadorEstadistico::cargarArchivo(){
+void AnalizadorEstadistico::cargarDatos(){
+}
+void AnalizadorEstadistico::ordenarDatos(){
 }
