@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(LectorCSV main.cpp
         AnalizadorEstadistico.cpp
-        Datos.cpp)
+        Datos.cpp
+        DatoMedicion.h)

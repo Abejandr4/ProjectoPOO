@@ -11,12 +11,33 @@ AnalizadorEstadistico::AnalizadorEstadistico(string archivo) {
     this->nombreArchivo = archivo;
 }
 
-void AnalizadorEstadistico::leerArchivo(){
+vector<Dato> AnalizadorEstadistico::leerArchivo(){
+        vector<vector<string>> registros;
+
+        ifstream archivo(nombreArchivo);
+
+        if (!archivo.is_open()) {
+            cerr << "no se pudo cargar: " << nombreArchivo << endl;
+        }
+
+        std::string line;
+        while (std::getline(archivo, line)) {
+            std::vector<std::string> row;
+            std::stringstream ss(line);
+            std::string cell;
+
+            while (std::getline(ss, cell, ',')) {
+                row.push_back(cell);
+            }
+
+            registros.push_back(row);
+        }
+
+        archivo.close();
+        return registros;
 
 }
 
-void AnalizadorEstadistico::cargarDatos(){
-}
 void AnalizadorEstadistico::ordenarDatos(){
 }
 double AnalizadorEstadistico::calcularMaximo(){

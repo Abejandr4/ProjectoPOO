@@ -14,8 +14,7 @@ private:
 public:
     AnalizadorEstadistico(string nombreArchivo);
 
-    void cargarDatos();
-    void leerArchivo();
+    vector<Dato> leerArchivo();
 
     void ordenarDatos();
     double calcularMaximo();
