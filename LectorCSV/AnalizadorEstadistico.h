@@ -3,6 +3,7 @@
 
 #include "Datos.h"
 #include <vector>
+#include <fstream>
 #include <string>
 using namespace std;
 
@@ -14,7 +15,8 @@ private:
 public:
     AnalizadorEstadistico(string nombreArchivo);
 
-    void leerArchivo();
+    ifstream leerArchivo();
+    void imprimirDatos();
 
     void ordenarDatos();
     double calcularMaximo();

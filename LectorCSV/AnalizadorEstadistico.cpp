@@ -15,13 +15,28 @@ AnalizadorEstadistico::~AnalizadorEstadistico() {
     cout << "fin" << endl;
 }
 
-void AnalizadorEstadistico::leerArchivo(){
+ifstream AnalizadorEstadistico::leerArchivo(){
     ifstream archivo;
 
     archivo.open(nombreArchivo);
 
     if (archivo.fail()) {
         cerr << "No se pudo abrir " << nombreArchivo << endl;
+    }
+    return archivo;
+
+}
+
+void AnalizadorEstadistico::imprimirDatos() {
+    ifstream archivo = leerArchivo();
+
+    while (archivo.peek()!=EOF) { //EOF = end of file
+        string datos;
+
+        getline(archivo, datos, ','); //las lineas del arch las separamos en datos cada ','
+
+        cout << datos << endl;
+
     }
 }
 
