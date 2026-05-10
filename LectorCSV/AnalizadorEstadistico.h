@@ -2,6 +2,8 @@
 #define ANALIZADORESTADISTICO_H
 
 #include "Datos.h"
+#include "DatoString.h"
+#include "DatoFloat.h"
 #include <vector>
 #include <fstream>
 #include <string>
@@ -9,13 +11,16 @@ using namespace std;
 
 class AnalizadorEstadistico {
 private:
-    vector<Dato*> registros;
+    vector<DatoString*> datoString;
+    vector<DatoFloat*> datoFloat;
     string nombreArchivo;
 
 public:
     AnalizadorEstadistico(string nombreArchivo);
 
     ifstream leerArchivo();
+
+    void guardarDatos();
     void imprimirDatos();
 
     void ordenarDatos();

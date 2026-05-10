@@ -6,15 +6,12 @@ using namespace std;
 
 class Dato {
 private:
-   string nombre;
    string tipo;
    
 public:
-   Dato(string nombre, string tipo);
+   Dato(string tipo);
 
-   string getNombre();
    string getTipo();
-
 };
 
 #endif
