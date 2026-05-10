@@ -9,7 +9,7 @@ using namespace std;
 
 int main() {
 
-    AnalizadorEstadistico archivo1("C:\\Users\\cra38\\OneDrive\\Desktop\\ProjectoPOO\\LectorCSV\\data\\waterQuality.csv");
+    AnalizadorEstadistico archivo1("data\\waterQuality.csv");
     AnalizadorEstadistico archivo2("C:\\Users\\cra38\\OneDrive\\Desktop\\ProjectoPOO\\LectorCSV\\data\\globalAirPollutionDataset.csv"); //checar si se dbee poner path entero
 
     archivo1.leerArchivo();

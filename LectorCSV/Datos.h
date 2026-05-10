@@ -7,9 +7,10 @@ using namespace std;
 class Dato {
 private:
    string tipo;
-   
+
 public:
    Dato(string tipo);
+   virtual ~Dato();
 
    string getTipo();
 };

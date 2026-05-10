@@ -1,5 +1,5 @@
 //
-// Created by cra38 on 5/10/2026.
+// Created by cra38 on 2/10/2026.
 //
 
 #ifndef LECTORCSV_DATOFLOAT_H
@@ -10,8 +10,9 @@
 class DatoFloat : public Dato {
     private:
     float valor;
+
     public:
-    DatoFloat();
+    DatoFloat(float valor);
 
     float getValor();
 

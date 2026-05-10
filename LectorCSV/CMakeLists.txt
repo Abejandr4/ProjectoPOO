@@ -4,11 +4,16 @@ project(LectorCSV)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(LectorCSV main.cpp
+        AnalizadorEstadistico.h
         AnalizadorEstadistico.cpp
+        Datos.h
         Datos.cpp
-        DatoMedicion.h
         DatoString.cpp
         DatoString.h
         DatoString.cpp
         DatoFloat.cpp
-        DatoFloat.h)
+        DatoFloat.h
+        AnalizadorEstadisticoString.h
+        AnalizadorEstadisticoString.cpp
+        Columna.cpp
+        Columna.h)

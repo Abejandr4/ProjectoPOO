@@ -11,8 +11,6 @@ using namespace std;
 
 class AnalizadorEstadistico {
 private:
-    vector<DatoString*> datoString;
-    vector<DatoFloat*> datoFloat;
     string nombreArchivo;
 
 public:
@@ -23,12 +21,12 @@ public:
     void guardarDatos();
     void imprimirDatos();
 
-    void ordenarDatos();
-    double calcularMaximo();
-    double calcularMinimo();
+    virtual void ordenarDatos();
+    virtual double calcularMaximo();
+    virtual double calcularMinimo();
 
     double calcularPromedio();
-    double calcularModa();  
+    virtual double calcularModa();
     double calcularMediana();  
 
     void mostrarHistograma();

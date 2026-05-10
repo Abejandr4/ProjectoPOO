@@ -13,7 +13,7 @@ class DatoString : public Dato {
     string valor;
 
     public:
-    DatoString();
+    DatoString(string valor);
 
     string getValor();
 };
