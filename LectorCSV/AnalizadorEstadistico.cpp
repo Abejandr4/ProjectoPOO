@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <map>
 #include <algorithm>
 using namespace std;
 
@@ -40,15 +41,8 @@ void AnalizadorEstadistico::leerArchivo(){
 }
 
 void AnalizadorEstadistico::imprimirDatos() {
-    ifstream archivo = datos;
-
-    while (archivo.peek()!=EOF) { //EOF = end of file
-        string datos;
-
-        getline(archivo, datos, ','); //las lineas del arch las separamos en datos cada ','
-
-        cout << datos << endl;
-
+    for (auto d : datos) {
+        cout << d->getValor() << endl;
     }
 }
 
@@ -63,7 +57,7 @@ void AnalizadorEstadistico::calcularMaximo() {
         cout << "no hay maximo" << endl;
     }
     float max = datos[0]->getValor();
-    for (auto d : datos) if (d->getValor() <max) max = d->getValor();
+    for (auto d : datos) if (d->getValor() >max) max = d->getValor();
     cout << max << endl;
 }
 
@@ -77,13 +71,31 @@ void AnalizadorEstadistico::calcularMinimo() {
 }
 
 float AnalizadorEstadistico::calcularPromedio() {
-    if (datos.empty()) return 0;
-    float suma = 0;
-    for (auto d : datos) suma += d->getValor();
-    return suma / datos.size();
+    if (datos.empty()) {
+        cout << "no hay promedio" << endl;
+        return 0;
+    } else {
+        float suma = 0;
+        for (auto d : datos) suma += d->getValor();
+        return suma / datos.size();
+    }
+
 }
 
-void AnalizadorEstadistico::calcularModa() {
+void AnalizadorEstadistico::calcularModa() { //cehcar si se puede hacer sin map
+    if (datos.empty()) return;
+    map<float, int> frecuencias;
+    for (auto d : datos) frecuencias[d->getValor()]++;
+
+    float moda = datos[0]->getValor();
+    int maxFrecuencia = 0;
+    for (auto const& [val, frec] : frecuencias) {
+        if (frec > maxFrecuencia) {
+            maxFrecuencia = frec;
+            moda = val;
+        }
+    }
+    cout << "Moda: " << moda << " (aparece " << maxFrecuencia << " veces)" << endl;
 
 }
 
@@ -94,5 +106,6 @@ void AnalizadorEstadistico::guardarResultados(std::string reporte) {
     calcularMaximo();
     calcularMinimo();
     out << "Promedio: " << calcularPromedio() << "\n";
+    calcularModa();
     out.close();
 }

@@ -10,16 +10,37 @@ using namespace std;
 
 int main() {
 
-    AnalizadorEstadistico archivo1("data\\waterQuality.csv");
-    AnalizadorEstadistico archivo2("C:\\Users\\cra38\\OneDrive\\Desktop\\ProjectoPOO\\LectorCSV\\data\\globalAirPollutionDataset.csv"); //checar si se dbee poner path entero
+    try {
+        cout << "--- Iniciando Analizador de Datos ---" << endl;
 
-    archivo1.leerArchivo();
-    archivo2.leerArchivo();
+        AnalizadorEstadistico analf("data\\waterQuality.csv");
+        analf.leerArchivo();
 
-    archivo1.imprimirDatos();
+        cout << "\nDatos Numericos:" << endl;
+        analf.ordenarDatos();
+        analf.calcularMaximo();
+        analf.calcularMinimo();
+        analf.calcularModa();
+        cout << "Promedio: " << analf.calcularPromedio() << endl;
 
+        AnalizadorEstadisticoString analfi("data\\globalAirPollutionDataset.csv");
 
+        cout << "\nDatos de string:" << endl;
+
+        analfi.leerArchivo();
+        analfi.ordenarDatos();
+        analfi.calcularMaximo();
+        analfi.calcularMinimo();
+
+        analf.guardarResultados("reporte_final.txt");
+        cout << "\nResultados guardados exitosamente." << endl;
+
+    } catch (const exception& e) {
+        cerr << "Errora: " << e.what() << endl;
+        return 0;
+    }
 
     return 0;
-    // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.
+
+
 }
