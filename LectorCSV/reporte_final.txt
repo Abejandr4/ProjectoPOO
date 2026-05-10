@@ -1,0 +1,3 @@
+--- Reporte Estadístico Numerico ---
+Archivo: data\waterQuality.csv
+Promedio: 101.401
