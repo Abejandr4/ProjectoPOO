@@ -7,48 +7,42 @@
 #include <stdexcept>
 using namespace std;
 
-AnalizadorEstadistico::AnalizadorEstadistico(string archivo) {
-    this->nombreArchivo = archivo;
+AnalizadorEstadistico::AnalizadorEstadistico(string nombreArchivo) {
+    this->nombreArchivo = nombreArchivo;
 }
 
-vector<Dato> AnalizadorEstadistico::leerArchivo(){
-        vector<vector<string>> registros;
+AnalizadorEstadistico::~AnalizadorEstadistico() {
+    cout << "fin" << endl;
+}
 
-        ifstream archivo(nombreArchivo);
+void AnalizadorEstadistico::leerArchivo(){
+    ifstream archivo;
 
-        if (!archivo.is_open()) {
-            cerr << "no se pudo cargar: " << nombreArchivo << endl;
-        }
+    archivo.open(nombreArchivo);
 
-        std::string line;
-        while (std::getline(archivo, line)) {
-            std::vector<std::string> row;
-            std::stringstream ss(line);
-            std::string cell;
-
-            while (std::getline(ss, cell, ',')) {
-                row.push_back(cell);
-            }
-
-            registros.push_back(row);
-        }
-
-        archivo.close();
-        return registros;
-
+    if (archivo.fail()) {
+        cerr << "No se pudo abrir " << nombreArchivo << endl;
+    }
 }
 
 void AnalizadorEstadistico::ordenarDatos(){
+
 }
 double AnalizadorEstadistico::calcularMaximo(){
+    return 0;
 }
+
 double AnalizadorEstadistico::calcularMinimo(){
+    return 0;
 }
 double AnalizadorEstadistico::calcularPromedio(){
+    return 0;
 }
 double AnalizadorEstadistico::calcularModa(){
+    return 0;
 }
 double AnalizadorEstadistico::calcularMediana(){
+    return 0;
 }
 
 void AnalizadorEstadistico::mostrarHistograma(){

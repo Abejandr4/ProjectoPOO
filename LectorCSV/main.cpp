@@ -9,18 +9,12 @@ using namespace std;
 
 int main() {
 
-    AnalizadorEstadistico archivo1("example.csv");
+    AnalizadorEstadistico archivo1("data/waterQuality.csv");
+    AnalizadorEstadistico archivo2("data/globalAirPollutionDataset.csv"); //checar si se dbee poner path entero
 
-    auto datos = archivo1.leerArchivo();
+    archivo1.leerArchivo();
+    archivo2.leerArchivo();
 
-    for (const auto& row : datos) {
-        for (const auto& cell : row) {
-            std::cout << cell << "\t";
-        }
-        std::cout << std::endl;
-    }
-
-    return 0;
 
 
     return 0;
