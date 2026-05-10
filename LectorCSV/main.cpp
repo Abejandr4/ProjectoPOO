@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "AnalizadorEstadistico.h"
+#include "AnalizadorEstadisticoString.h"
 
 using namespace std;
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <algorithm>
 using namespace std;
 
 AnalizadorEstadistico::AnalizadorEstadistico(string nombreArchivo) {
@@ -13,9 +14,10 @@ AnalizadorEstadistico::AnalizadorEstadistico(string nombreArchivo) {
 
 AnalizadorEstadistico::~AnalizadorEstadistico() {
     cout << "limpiando memoria..." << endl;
+    for (auto dato : datos) delete dato; //para cada dato de datos...
 }
 
-ifstream AnalizadorEstadistico::leerArchivo(){
+void AnalizadorEstadistico::leerArchivo(){
     ifstream archivo;
 
     archivo.open(nombreArchivo);
@@ -23,16 +25,22 @@ ifstream AnalizadorEstadistico::leerArchivo(){
     if (archivo.fail()) {
         cerr << "No se pudo abrir " << nombreArchivo << endl;
     }
-    return archivo;
 
-}
-
-void AnalizadorEstadistico::guardarDatos() {
+    string linea;
+    while (getline(archivo, linea)) {
+        try {
+            float val = std::stof(linea); // checamos si se convierte a float
+            datos.push_back(new DatoFloat(val));
+        } catch (...) {
+            // checar si se pone algo aqui
+        }
+    }
+    archivo.close();
 
 }
 
 void AnalizadorEstadistico::imprimirDatos() {
-    ifstream archivo = leerArchivo();
+    ifstream archivo = datos;
 
     while (archivo.peek()!=EOF) { //EOF = end of file
         string datos;
@@ -45,37 +53,46 @@ void AnalizadorEstadistico::imprimirDatos() {
 }
 
 void AnalizadorEstadistico::ordenarDatos() {
-
-}
-double AnalizadorEstadistico::calcularMaximo(){
-    ifstream archivo = leerArchivo();
-
-
-
-    return 0;
+    std::sort(datos.begin(), datos.end(), [](DatoFloat* a, DatoFloat* b) {
+        return a->getValor() < b->getValor();
+    });
 }
 
-double AnalizadorEstadistico::calcularMinimo(){
-    ifstream archivo = leerArchivo();
-    return 0;
-}
-double AnalizadorEstadistico::calcularPromedio(){
-    ifstream archivo = leerArchivo();
-    return 0;
-}
-double AnalizadorEstadistico::calcularModa(){
-    return 0;
-}
-double AnalizadorEstadistico::calcularMediana(){
-    ifstream archivo = leerArchivo();
-    return 0;
+void AnalizadorEstadistico::calcularMaximo() {
+    if (datos.empty()) {
+        cout << "no hay maximo" << endl;
+    }
+    float max = datos[0]->getValor();
+    for (auto d : datos) if (d->getValor() <max) max = d->getValor();
+    cout << max << endl;
 }
 
-void AnalizadorEstadistico::mostrarHistograma(){
-    ifstream archivo = leerArchivo();
+void AnalizadorEstadistico::calcularMinimo() {
+    if (datos.empty()) {
+        cout << "no hay minimo" << endl;
+    }
+    float min = datos[0]->getValor();
+    for (auto d : datos) if (d->getValor() < min) min = d->getValor();
+    cout << min << endl;
 }
 
-void AnalizadorEstadistico::guardarResultados(string reporte){
-    ifstream archivo = leerArchivo();
+float AnalizadorEstadistico::calcularPromedio() {
+    if (datos.empty()) return 0;
+    float suma = 0;
+    for (auto d : datos) suma += d->getValor();
+    return suma / datos.size();
+}
 
+void AnalizadorEstadistico::calcularModa() {
+
+}
+
+void AnalizadorEstadistico::guardarResultados(std::string reporte) {
+    std::ofstream out(reporte);
+    out << "--- Reporte Estadístico Numerico ---\n";
+    out << "Archivo: " << nombreArchivo << "\n";
+    calcularMaximo();
+    calcularMinimo();
+    out << "Promedio: " << calcularPromedio() << "\n";
+    out.close();
 }
