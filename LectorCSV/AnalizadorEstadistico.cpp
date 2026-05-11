@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <iomanip>
 #include <map>
 #include <algorithm>
 using namespace std;
@@ -190,22 +191,64 @@ void AnalizadorEstadistico::calcularModa() { //cehcar si se puede hacer sin map
 
 }
 
+void AnalizadorEstadistico::mostrarHistograma(int numeroFilas) {
+    if (datos.empty()) { cout << "No hay datos cargados." << endl; return; }
+
+    float min = datos[0]->getValor();
+    float max = datos[0]->getValor();
+    for (auto d : datos) {
+        if (d->getValor() < min) min = d->getValor();
+        if (d->getValor() > max) max = d->getValor();
+    }
+
+    float rango = (max - min) / numeroFilas;
+
+    vector<int> conteos(numeroFilas, 0);
+    for (auto d : datos) {
+        int bucket = (int)((d->getValor() - min) / rango);
+        if (bucket == numeroFilas) bucket--; // el valor maximo cae en la ultima fila
+        conteos[bucket]++;
+    }
+
+    int maxConteo = *max_element(conteos.begin(), conteos.end());
+    int barWidth = 15;
+
+    cout << "\n=== Histograma ===" << endl;
+    for (int i = 0; i < numeroFilas; i++) {
+        float limInf = min + i * rango;
+        float limSup = limInf + rango;
+        int barLen = (int)((float)conteos[i] / maxConteo * barWidth);
+
+        cout << fixed << setprecision(2);
+        cout << setw(4) << i + 1 << " "
+             << "[" << setw(6) << limInf << "-" << setw(6) << limSup << "]"
+             << "|";
+
+        for (int j = 0; j < barWidth; j++)
+            cout << (j < barLen ? '#' : ' ');
+
+        cout << "| " << conteos[i] << endl;
+    }
+
+}
 
 void AnalizadorEstadistico::guardarResultados(string reporte) {
     stringstream buffer;
 
     ofstream out(reporte);
-    out << "--- Reporte Estadístico ---\n";
+    out << "--- Reporte Estadístico de la columna seleccionada ---\n";
     out << "Archivo: " << nombreArchivo << "\n";
 
     streambuf* coutOG = cout.rdbuf(); //coutOG = a donde originalmente se dirige el cout
 
     cout.rdbuf(buffer.rdbuf()); // se manda a memoria temporal
 
+    cout << "=== Estadisticas ===" << endl;
     calcularMaximo();
     calcularMinimo();
     calcularPromedio();
     calcularModa();
+    mostrarHistograma(5);
 
     cout.rdbuf(coutOG);
 

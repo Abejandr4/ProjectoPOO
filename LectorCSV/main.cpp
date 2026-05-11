@@ -21,6 +21,7 @@ void menuNumerico(AnalizadorEstadistico& analizador, const string& nombreArchivo
         cout << "  5. Calcular promedio" << endl;
         cout << "  6. Calcular moda" << endl;
         cout << "  7. Guardar reporte" << endl;
+        cout << "  8. Mostrar histograma" << endl;
         cout << "  0. Volver" << endl;
         cout << "\n  Opcion: ";
         cin >> opcion;
@@ -56,6 +57,10 @@ void menuNumerico(AnalizadorEstadistico& analizador, const string& nombreArchivo
                 cin >> reporte;
                 analizador.guardarResultados(reporte);
                 cout << "Reporte creado en " << reporte << endl;
+                break;
+            }
+            case 8: {
+                analizador.mostrarHistograma(5); //5 filas
                 break;
             }
             case 0:

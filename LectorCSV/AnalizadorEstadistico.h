@@ -31,9 +31,8 @@ public:
 
     virtual void calcularPromedio();
     virtual void calcularModa();
-    float calcularMediana();
 
-    void mostrarHistograma();
+    void mostrarHistograma(int numeroFilas);
 
 
     void guardarResultados(string archivoReporte);
