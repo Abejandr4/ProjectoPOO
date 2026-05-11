@@ -188,10 +188,14 @@ void AnalizadorEstadistico::calcularModa() { //cehcar si se puede hacer sin map
     }
 
     map<float, int> frecuencias;
-    for (auto d : datos) frecuencias[d->getValor()]++;
+    for (auto d : datos) {
+        frecuencias[d->getValor()]++; //busca cada dato en el map y le suma a la frecuencia
+    }
 
-    float moda = datos[0]->getValor();
+    float moda = datos[0]->getValor();//por default la moda es el primer valor
+
     int maxFrecuencia = 0;
+
     for (auto [val, frec] : frecuencias) {
         if (frec > maxFrecuencia) {
             maxFrecuencia = frec;
