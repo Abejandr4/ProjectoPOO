@@ -16,7 +16,7 @@ AnalizadorEstadistico::AnalizadorEstadistico(string nombreArchivo) {
 
 AnalizadorEstadistico::~AnalizadorEstadistico() {
     // cout << "limpiando memoria..." << endl;
-    for (auto dato : datos) delete dato;
+    for (auto d : datos) delete d;
 }
 
 string AnalizadorEstadistico::getNombreArchivo() {
@@ -152,8 +152,12 @@ void AnalizadorEstadistico::calcularMaximo() {
     if (datos.empty()) {
         cout << "no hay maximo" << endl;
     }
+
     float max = datos[0]->getValor();
-    for (auto d : datos) if (d->getValor() >max) max = d->getValor();
+    for (auto d : datos) {
+        if (d->getValor() >max) max = d->getValor();
+    }
+
     cout << "maximo: " << max << endl;
 }
 
@@ -162,7 +166,10 @@ void AnalizadorEstadistico::calcularMinimo() {
         cout << "no hay minimo" << endl;
     }
     float min = datos[0]->getValor();
-    for (auto d : datos) if (d->getValor() < min) min = d->getValor();
+    for (auto d : datos) {
+        if (d->getValor() < min) min = d->getValor();
+    }
+
     cout << "minimo: " << min << endl;
 }
 
@@ -212,16 +219,16 @@ void AnalizadorEstadistico::mostrarHistograma(int numeroFilas) {
     float min = datos[0]->getValor();
     float max = datos[0]->getValor();
     for (auto d : datos) {
-        if (d->getValor() < min) min = d->getValor();
+        if (d->getValor() < min) min = d->getValor(); //busca minimo y maximo
         if (d->getValor() > max) max = d->getValor();
     }
 
-    float rango = (max - min) / numeroFilas;
+    float rango = (max - min) / numeroFilas; //el rango de los valores que tenemos
 
-    vector<int> conteos(numeroFilas, 0);
+    vector<int> conteos(numeroFilas, 0); //no. de filas del histograma
     for (auto d : datos) {
-        int bucket = (int)((d->getValor() - min) / rango);
-        if (bucket == numeroFilas) bucket--; // el valor maximo cae en la ultima fila
+        int bucket = (int)((d->getValor() - min) / rango); //decide en que barra va cada valor
+        if (bucket == numeroFilas) bucket--;
         conteos[bucket]++;
     }
 

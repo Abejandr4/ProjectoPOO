@@ -67,14 +67,18 @@ void AnalizadorEstadisticoString::calcularMaximo() {
     if (datos.empty()) return;
     // Maximo alfabético
     string max = datos[0]->getValor();
-    for (auto d : datos) if (d->getValor() > max) max = d->getValor();
+    for (auto d : datos) {
+        if (d->getValor() > max) max = d->getValor();
+    }
     cout << "Último alfabéticamente: " << max << endl;
 }
 
 void AnalizadorEstadisticoString::calcularMinimo() {
     if (datos.empty()) return;
     string min = datos[0]->getValor();
-    for (auto d : datos) if (d->getValor() < min) min = d->getValor();
+    for (auto d : datos) {
+        if (d->getValor() < min) min = d->getValor();
+    }
     cout << "Primero alfabéticamente: " << min << endl;
 }
 
