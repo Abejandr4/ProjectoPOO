@@ -1,5 +1,5 @@
 //
-// Created by cra38 on 5/10/2026.
+// Created by cra38 on 5/09/2026.
 //
 
 #ifndef LECTORCSV_DATOSTRING_H
