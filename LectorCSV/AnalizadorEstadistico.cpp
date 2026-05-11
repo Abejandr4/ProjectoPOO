@@ -14,26 +14,45 @@ AnalizadorEstadistico::AnalizadorEstadistico(string nombreArchivo) {
 }
 
 AnalizadorEstadistico::~AnalizadorEstadistico() {
-    cout << "limpiando memoria..." << endl;
-    for (auto dato : datos) delete dato; //para cada dato de datos...
+    // cout << "limpiando memoria..." << endl;
+    for (auto dato : datos) delete dato;
 }
 
-void AnalizadorEstadistico::leerArchivo(){
+string AnalizadorEstadistico::getNombreArchivo() {
+    return nombreArchivo;
+}
+
+void AnalizadorEstadistico::leerArchivo(int columna){
     ifstream archivo;
 
     archivo.open(nombreArchivo);
 
     if (archivo.fail()) {
         cerr << "No se pudo abrir " << nombreArchivo << endl;
+        return;
     }
 
     string linea;
+    bool primeraLinea = true;
+
     while (getline(archivo, linea)) {
-        try {
-            float val = std::stof(linea); // checamos si se convierte a float
-            datos.push_back(new DatoFloat(val));
-        } catch (...) {
-            // checar si se pone algo aqui
+        if (primeraLinea) { // saltar encabezado porque tiene las categor[ias
+            primeraLinea = false;
+            continue;
+        }
+
+        stringstream ss(linea);
+        string celda;
+        int col = 0;
+        while (getline(ss, celda, ',')) {
+            if (col == columna) {
+                try {
+                    float val = stof(celda);
+                    datos.push_back(new DatoFloat(val));
+                } catch (...) {}
+                break;
+            }
+            col++;
         }
     }
     archivo.close();
@@ -44,6 +63,63 @@ void AnalizadorEstadistico::imprimirDatos() {
     for (auto d : datos) {
         cout << d->getValor() << endl;
     }
+}
+
+void AnalizadorEstadistico::imprimirFila(int fila) {
+    ifstream archivo;
+
+    archivo.open(nombreArchivo);
+
+    if (!archivo) { cerr << "No se pudo abrir " << nombreArchivo << endl; return; }
+    string linea;
+    int lineaActual = -1;
+    while (getline(archivo, linea)) {
+        if (lineaActual == fila) {
+            stringstream ss(linea);
+            string celda;
+            bool primero = true;
+            while (getline(ss, celda, ',')) {
+                if (!primero) cout << " | ";
+                cout << celda;
+                primero = false;
+            }
+            cout << endl;
+            break;
+        }
+        lineaActual++;
+    }
+    archivo.close();
+}
+
+void AnalizadorEstadistico::imprimirCol(int columna) {
+
+    ifstream archivo;
+
+    archivo.open(nombreArchivo);
+
+    if (!archivo) { cerr << "No se pudo abrir " << nombreArchivo << endl; return; }
+    string linea;
+    bool primeraLinea = true;
+    while (getline(archivo, linea)) {
+        if (primeraLinea) {
+            // Imprime encabezado de la columna
+            stringstream ss(linea);
+            string celda; int col = 0;
+            while (getline(ss, celda, ',')) {
+                if (col == columna) { cout << "[" << celda << "]" << endl; break; }
+                col++;
+            }
+            primeraLinea = false;
+            continue;
+        }
+        stringstream ss(linea);
+        string celda; int col = 0;
+        while (getline(ss, celda, ',')) {
+            if (col == columna) { cout << celda << endl; break; }
+            col++;
+        }
+    }
+    archivo.close();
 }
 
 void AnalizadorEstadistico::ordenarDatos() {
@@ -58,7 +134,7 @@ void AnalizadorEstadistico::calcularMaximo() {
     }
     float max = datos[0]->getValor();
     for (auto d : datos) if (d->getValor() >max) max = d->getValor();
-    cout << max << endl;
+    cout << "maximo: " << max << endl;
 }
 
 void AnalizadorEstadistico::calcularMinimo() {
@@ -67,18 +143,22 @@ void AnalizadorEstadistico::calcularMinimo() {
     }
     float min = datos[0]->getValor();
     for (auto d : datos) if (d->getValor() < min) min = d->getValor();
-    cout << min << endl;
+    cout << "minimo: " << min << endl;
 }
 
-float AnalizadorEstadistico::calcularPromedio() {
+void AnalizadorEstadistico::calcularPromedio() {
+    float promedio = 0;
+
     if (datos.empty()) {
         cout << "no hay promedio" << endl;
-        return 0;
+
     } else {
         float suma = 0;
         for (auto d : datos) suma += d->getValor();
-        return suma / datos.size();
+        promedio =  suma / datos.size();
     }
+
+    cout << "promedio: " << promedio << endl;
 
 }
 
@@ -103,9 +183,12 @@ void AnalizadorEstadistico::guardarResultados(std::string reporte) {
     std::ofstream out(reporte);
     out << "--- Reporte Estadístico Numerico ---\n";
     out << "Archivo: " << nombreArchivo << "\n";
+
     calcularMaximo();
     calcularMinimo();
-    out << "Promedio: " << calcularPromedio() << "\n";
+
+    calcularPromedio();
     calcularModa();
+
     out.close();
 }

@@ -17,9 +17,12 @@ private:
     public:
     AnalizadorEstadisticoString(string nombreArchivo);
 
+    void leerArchivo(int columna) override;
+
     void ordenarDatos() override;
     void calcularMaximo() override;
     void calcularMinimo() override;
+    void calcularPromedio() override;
 
     void calcularModa() override;
 

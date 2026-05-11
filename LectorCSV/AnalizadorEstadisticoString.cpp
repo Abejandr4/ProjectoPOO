@@ -6,6 +6,8 @@
 #include <iostream>
 #include <algorithm>
 #include <map>
+#include <sstream>
+#include <fstream>
 
 AnalizadorEstadisticoString::AnalizadorEstadisticoString(string nombreArchivo) 
     : AnalizadorEstadistico(nombreArchivo) {}
@@ -14,12 +16,42 @@ AnalizadorEstadisticoString::~AnalizadorEstadisticoString() {
     for (auto d : datos) delete d;
 }
 
-// Sobrescribimos la lectura para que guarde strings
+
+void AnalizadorEstadisticoString::leerArchivo(int columna) {
+    ifstream archivo;
+    archivo.open(getNombreArchivo());
+
+    if (archivo.fail()) {
+        cerr << "No se pudo abrir " << getNombreArchivo() << endl;
+        return;
+    }
+
+    string linea;
+    bool primeraLinea = true;
+    while (getline(archivo, linea)) {
+        if (primeraLinea) { primeraLinea = false; continue; }
+        stringstream ss(linea);
+        string celda;
+        int col = 0;
+        while (getline(ss, celda, ',')) {
+            if (col == columna) {
+                datos.push_back(new DatoString(celda));
+                break;
+            }
+            col++;
+        }
+    }
+    archivo.close();
+
+}
+
+
 void AnalizadorEstadisticoString::ordenarDatos() {
-    // Ordenamos por número de letras (longitud) y luego alfabéticamente
+    // Ordenamos por número de letras
     sort(datos.begin(), datos.end(), [](DatoString* a, DatoString* b) {
-        if (a->getValor().length() != b->getValor().length())
+        if (a->getValor().length() != b->getValor().length()) {
             return a->getValor().length() < b->getValor().length();
+        }
         return a->getValor() < b->getValor();
     });
 }
@@ -52,3 +84,6 @@ void AnalizadorEstadisticoString::calcularModa() {
     cout << "Moda de texto: " << moda << " (" << max << " veces)" << endl;
 }
 
+void AnalizadorEstadisticoString::calcularPromedio() {
+    cout << "no se pueden calcular promedios con strings por el momento." << endl;
+}

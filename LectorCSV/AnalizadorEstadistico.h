@@ -18,14 +18,18 @@ private:
 public:
     AnalizadorEstadistico(string nombreArchivo);
 
-    void leerArchivo();
+    string getNombreArchivo();
+
+    virtual void leerArchivo(int columna = 0);
     void imprimirDatos();
+    void imprimirFila(int fila);
+    void imprimirCol(int columna);
 
     virtual void ordenarDatos();
     virtual void calcularMaximo();
     virtual void calcularMinimo();
 
-    float calcularPromedio();
+    virtual void calcularPromedio();
     virtual void calcularModa();
     float calcularMediana();
 
