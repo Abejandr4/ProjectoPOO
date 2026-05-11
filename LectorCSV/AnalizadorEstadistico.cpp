@@ -42,15 +42,15 @@ void AnalizadorEstadistico::leerArchivo(int columna){
             continue;
         }
 
-        stringstream ss(linea);
+        stringstream ss(linea); //convierte linea en archivo stream
         string celda;
         int col = 0;
-        while (getline(ss, celda, ',')) {
+        while (getline(ss, celda, ',')) { //lee ss y lo separa en celdas cada ','
             if (col == columna) {
                 try {
-                    float val = stof(celda);
+                    float val = stof(celda); //convierte a float la celda
                     datos.push_back(new DatoFloat(val));
-                } catch (...) {}
+                } catch (...) {} //ignora celda si hay error
                 break;
             }
             col++;
@@ -58,14 +58,13 @@ void AnalizadorEstadistico::leerArchivo(int columna){
     }
     archivo.close();
 
-    archivo.close();
-    cout << "[DEBUG] datos cargados: " << datos.size() << " valores de columna " << columna << endl;
+    cout << "datos cargados: " << datos.size() << " valores de columna " << columna << endl;
 
 }
 
 void AnalizadorEstadistico::imprimirDatos() {
     for (auto d : datos) {
-        cout << d->getValor() << endl;
+        cout << d->getValor() << endl; //imprime cad a dato
     }
 }
 
@@ -74,18 +73,22 @@ void AnalizadorEstadistico::imprimirFila(int fila) {
 
     archivo.open(nombreArchivo);
 
-    if (!archivo) { cerr << "No se pudo abrir " << nombreArchivo << endl; return; }
+    if (!archivo) {
+        cerr << "No se pudo abrir " << nombreArchivo << endl; return;
+    }
+
     string linea;
-    int lineaActual = -1;
+    int lineaActual = -1; //-1 para que la primera fila con datos sea la 0
     while (getline(archivo, linea)) {
-        if (lineaActual == fila) {
+        if (lineaActual == fila) { //imprime la linea si es la del input
             stringstream ss(linea);
             string celda;
-            bool primero = true;
+
+            bool primerValor = true;
             while (getline(ss, celda, ',')) {
-                if (!primero) cout << " | ";
+                if (!primerValor) cout << " | ";
                 cout << celda;
-                primero = false;
+                primerValor = false; //truco para no imprimir "| dato 1"
             }
             cout << endl;
             break;
@@ -101,25 +104,29 @@ void AnalizadorEstadistico::imprimirCol(int columna) {
 
     archivo.open(nombreArchivo);
 
-    if (!archivo) { cerr << "No se pudo abrir " << nombreArchivo << endl; return; }
+    if (!archivo) {
+        cerr << "No se pudo abrir " << nombreArchivo << endl; return;
+    }
+
     string linea;
     bool primeraLinea = true;
     while (getline(archivo, linea)) {
         if (primeraLinea) {
-            // Imprime encabezado de la columna
+            // Imprime el nombre de la columna
             stringstream ss(linea);
-            string celda; int col = 0;
-            while (getline(ss, celda, ',')) {
-                if (col == columna) { cout << "[" << celda << "]" << endl; break; }
+            string nombreCol; int col = 0;
+            while (getline(ss, nombreCol, ',')) {
+                if (col == columna) { cout << "[" << nombreCol << "]" << endl; break; }
                 col++;
             }
             primeraLinea = false;
             continue;
         }
+
         stringstream ss(linea);
         string celda; int col = 0;
         while (getline(ss, celda, ',')) {
-            if (col == columna) { cout << celda << endl; break; }
+            if (col == columna) { cout << celda << endl; break; } //imprime celda de la columna pedida
             col++;
         }
     }
@@ -127,6 +134,7 @@ void AnalizadorEstadistico::imprimirCol(int columna) {
 }
 
 void AnalizadorEstadistico::ordenarDatos() {
+
     if (datos.empty()) {
         cout << "No hay datos cargados." << endl;
         return;
@@ -175,7 +183,10 @@ void AnalizadorEstadistico::calcularPromedio() {
 }
 
 void AnalizadorEstadistico::calcularModa() { //cehcar si se puede hacer sin map
-    if (datos.empty()) return;
+    if (datos.empty()) {
+        cout << "no hay moda" << endl;
+    }
+
     map<float, int> frecuencias;
     for (auto d : datos) frecuencias[d->getValor()]++;
 
