@@ -57,6 +57,9 @@ void AnalizadorEstadistico::leerArchivo(int columna){
     }
     archivo.close();
 
+    archivo.close();
+    cout << "[DEBUG] datos cargados: " << datos.size() << " valores de columna " << columna << endl;
+
 }
 
 void AnalizadorEstadistico::imprimirDatos() {
@@ -123,9 +126,17 @@ void AnalizadorEstadistico::imprimirCol(int columna) {
 }
 
 void AnalizadorEstadistico::ordenarDatos() {
-    std::sort(datos.begin(), datos.end(), [](DatoFloat* a, DatoFloat* b) {
+    if (datos.empty()) {
+        cout << "No hay datos cargados." << endl;
+        return;
+    }
+
+    sort(datos.begin(), datos.end(), [](DatoFloat* a, DatoFloat* b) {
         return a->getValor() < b->getValor();
     });
+
+    cout << "Primer valor (minimo): " << datos.front()->getValor() << endl;
+    cout << "Ultimo valor (maximo): " << datos.back()->getValor() << endl;
 }
 
 void AnalizadorEstadistico::calcularMaximo() {

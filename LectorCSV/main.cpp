@@ -114,7 +114,7 @@ int main() {
                     switch (operacion) {
                         case 1:
                             archivoAire.ordenarDatos();
-                            cout << "\nDatos ordenados exitosamente." << endl;
+                            cout << "\nDatos ordenados exitosamente" << endl;
                             break;
                         case 2:
                             archivoAire.calcularMaximo();
@@ -126,7 +126,7 @@ int main() {
                             archivoAire.calcularModa();
                             break;
                         case 0:
-                            cout << "\nVolviendo al menu principal..." << endl;
+                            cout << "\nSaliendo del programa" << endl;
                             break;
                         default:
                             cout << "\nOpcion invalida." << endl;
@@ -144,7 +144,7 @@ int main() {
                 break;
             }
             case 0:
-                cout << "\nSaliendo del programa. Hasta luego!" << endl;
+                cout << "\nSaliendo del programa" << endl;
                 break;
             default:
                 cout << "\nOpcion invalida." << endl;

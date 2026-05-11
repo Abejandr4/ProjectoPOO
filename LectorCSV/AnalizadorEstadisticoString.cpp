@@ -47,13 +47,20 @@ void AnalizadorEstadisticoString::leerArchivo(int columna) {
 
 
 void AnalizadorEstadisticoString::ordenarDatos() {
-    // Ordenamos por número de letras
+    if (datos.empty()) {
+        cout << "No hay datos cargados" << endl;
+        return;
+    }
+
     sort(datos.begin(), datos.end(), [](DatoString* a, DatoString* b) {
         if (a->getValor().length() != b->getValor().length()) {
             return a->getValor().length() < b->getValor().length();
         }
         return a->getValor() < b->getValor();
     });
+
+    cout << "Primer valor (mas corto): " << datos.front()->getValor() << endl;
+    cout << "Ultimo valor (mas largo): " << datos.back()->getValor() << endl;
 }
 
 void AnalizadorEstadisticoString::calcularMaximo() {
