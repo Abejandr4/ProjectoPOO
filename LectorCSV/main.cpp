@@ -8,16 +8,12 @@
 
 using namespace std;
 
-void separador(const string& titulo) {
-    cout << "\n========================================" << endl;
-    cout << "  " << titulo << endl;
-    cout << "========================================" << endl;
-}
-
 void menuNumerico(AnalizadorEstadistico& analizador, const string& nombreArchivo) {
     int opcion = -1;
     while (opcion != 0) {
-        separador("MENU NUMERICO");
+        cout << "\n========================================" << endl;
+        cout << "  " << "MENU NUMERICO" << endl;
+        cout << "========================================" << endl;
         cout << "  1. Imprimir datos" << endl;
         cout << "  2. Ordenar datos" << endl;
         cout << "  3. Calcular maximo" << endl;
@@ -31,7 +27,9 @@ void menuNumerico(AnalizadorEstadistico& analizador, const string& nombreArchivo
 
         switch (opcion) {
             case 1:
-                separador("DATOS");
+                cout << "\n========================================" << endl;
+                cout << "  " << "Datos" << endl;
+                cout << "========================================" << endl;
                 analizador.imprimirDatos();
                 break;
             case 2:
@@ -88,7 +86,7 @@ int main() {
 
     int opcion = -1;
     while (opcion != 0) {
-        separador("MENU PRINCIPAL");
+
         cout << "  1. waterQuality.csv         (numerico - columna 'target')" << endl;
         cout << "  2. globalAirPollution.csv   (texto    - columna 'City')" << endl;
         cout << "  3. globalAirPollution.csv   (numerico - columna 'AQI Value')" << endl;
@@ -103,7 +101,6 @@ int main() {
             case 2: {
                 int subopcion = -1;
                 while (subopcion != 0) {
-                    separador("MENU DE TEXTO");
                     cout << "  1. Ordenar datos" << endl;
                     cout << "  2. Maximo alfabetico" << endl;
                     cout << "  3. Minimo alfabetico" << endl;

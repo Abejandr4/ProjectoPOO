@@ -8,7 +8,7 @@
 #include <string>
 using namespace std;
 
-//este archivo por default trata con datos tipo float, pues son de los que mas se ven en medicions
+//este archivo por default trata con datos tipo float, pues son de los tipos que mas se ven en mediciones
 
 class AnalizadorEstadistico {
 private:

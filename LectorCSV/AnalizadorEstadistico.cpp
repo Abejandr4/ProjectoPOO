@@ -169,7 +169,7 @@ void AnalizadorEstadistico::calcularModa() { //cehcar si se puede hacer sin map
 
     float moda = datos[0]->getValor();
     int maxFrecuencia = 0;
-    for (auto const& [val, frec] : frecuencias) {
+    for (auto [val, frec] : frecuencias) {
         if (frec > maxFrecuencia) {
             maxFrecuencia = frec;
             moda = val;
@@ -179,16 +179,27 @@ void AnalizadorEstadistico::calcularModa() { //cehcar si se puede hacer sin map
 
 }
 
-void AnalizadorEstadistico::guardarResultados(std::string reporte) {
-    std::ofstream out(reporte);
-    out << "--- Reporte Estadístico Numerico ---\n";
+
+void AnalizadorEstadistico::guardarResultados(string reporte) {
+    stringstream buffer;
+
+    ofstream out(reporte);
+    out << "--- Reporte Estadístico ---\n";
     out << "Archivo: " << nombreArchivo << "\n";
+
+    streambuf* coutOG = cout.rdbuf(); //coutOG = a donde originalmente se dirige el cout
+
+    cout.rdbuf(buffer.rdbuf()); // se manda a memoria temporal
 
     calcularMaximo();
     calcularMinimo();
-
     calcularPromedio();
     calcularModa();
+
+    cout.rdbuf(coutOG);
+
+    out << buffer.str();
+    cout << buffer.str();
 
     out.close();
 }
